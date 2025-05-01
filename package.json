@@ -15,6 +15,7 @@
     "@mdx-js/mdx": "^3.1.0",
     "@mdx-js/react": "^3.1.0",
     "@mdx-js/rollup": "^3.1.0",
+    "@tailwindcss/postcss": "^4.1.5",
     "@tailwindcss/vite": "^4.1.4",
     "@tanstack/react-query": "^5.74.11",
     "@types/cors": "^2.8.17",
@@ -29,12 +30,15 @@
     "multer": "^1.4.5-lts.2",
     "npm": "^11.3.0",
     "openai": "^4.96.2",
+    "postcss": "^8.5.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tailwindcss": "^4.1.4"
+    "remark-mdx": "^3.1.0",
+    "tailwindcss": "^4.1.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
+    "@tailwindcss/typography": "^0.5.16",
     "@tanstack/eslint-plugin-query": "^5.74.7",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.3",
