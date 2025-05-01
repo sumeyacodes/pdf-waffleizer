@@ -3,23 +3,26 @@ import cors from "cors";
 import morgan from "morgan";
 import scrapeRouter from "./routes/pdf-scraper";
 
-const CLIENT_PORT = process.env.CLIENT_PORT || 5173;
-const SERVER_PORT = process.env.SERVER_PORT || 3000;
+const LOCAL_CLIENT_URL = `http://localhost:5173`;
+const PROD_URL = "https://pdf-waffleizer.vercel.app";
+const allowedOrigins = [LOCAL_CLIENT_URL, PROD_URL];
 
 const app = express();
 
 // MIDDLEWARE
 
-// cors - needs to allow url making the request or server will block it
-// need to check if there is better way to do this (best practices for security)
-// for now, just allow localhost and vercel
 app.use(
   cors({
-    origin: [
-      `http://localhost:${CLIENT_PORT}", "https://pdf-waffleizer.vercel.app`,
-    ],
+    origin: (incomingOrigin, callback) => {
+      if (!incomingOrigin || allowedOrigins.includes(incomingOrigin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS denied"), false);
+      }
+    },
   })
 );
+
 // morgan - for logging in terminal
 app.use(morgan("dev"));
 // parsing json
@@ -27,6 +30,9 @@ app.use(express.json());
 // subroute for scraping
 app.use("/scrape", scrapeRouter);
 
-app.listen(SERVER_PORT, () =>
-  console.log(`Server listening on http://localhost:${SERVER_PORT}`)
-);
+// Bind to 0.0.0.0 so Render’s router can reach it
+const PORT = 3000;
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server listening on port ${PORT}`);
+});
