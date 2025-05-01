@@ -4,6 +4,7 @@ import { Header } from "./components/header";
 import { ViewPDF } from "./components/view-pdf";
 import { UploadPDF } from "./components/upload-pdf";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 function App() {
   const queryClient = new QueryClient();
@@ -20,6 +21,7 @@ function App() {
 
         <ViewPDF />
       </main>
+      <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
   );
 }

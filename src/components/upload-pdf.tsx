@@ -1,11 +1,11 @@
 import { useState, FormEvent } from "react";
-import { useFileScraper } from "../hooks/use-scraper";
+import { usPDFScraper } from "../hooks/use-pdf-scraper";
 import { UploadFile } from "./input-file";
 import { UploadButton } from "./upload-button";
 
 export function UploadPDF() {
   const [file, setFile] = useState<File | null>(null);
-  const mutation = useFileScraper();
+  const mutation = usPDFScraper();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -21,7 +21,6 @@ export function UploadPDF() {
       type: file.type,
     });
 
-    // tanstack query uploads file and keeps server state in sync
     try {
       await mutation.mutateAsync(file);
     } catch (err) {

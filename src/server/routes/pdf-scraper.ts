@@ -29,6 +29,10 @@ router.post("/file", upload.single("file"), (req, res) => {
   }
 
   const filePath = req.file.path;
+  // use the multer-generated filename (random hash) for matching the Python output
+  const pdfBase = req.file.filename;
+  const outputFilename = `${pdfBase}.mdx`;
+
   const scrapeScript = path.join(
     __dirname,
     "../../../src/scraper/file-script.py"
@@ -42,9 +46,11 @@ router.post("/file", upload.single("file"), (req, res) => {
 
   py.on("close", (code) => {
     if (code === 0) {
-      return res
-        .status(200)
-        .json({ message: "✅ File processed successfully" });
+      // respond with the generated MDX filename
+      return res.status(200).json({
+        message: "✅ File processed successfully",
+        filename: outputFilename,
+      });
     } else {
       return res
         .status(500)

@@ -16,7 +16,7 @@ app.use(express.json());
 // subroute for scraping
 app.use("/scrape", scrapeRouter);
 
-const PORT = process.env.PORT;
+const PORT = process.env.SERVER_PORT;
 
 app.listen(PORT, () =>
   console.log(`Server listening on http://localhost:${PORT}`)
