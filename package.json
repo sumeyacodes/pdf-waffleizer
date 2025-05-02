@@ -9,9 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "npx tsx --watch src/server/index.ts",
-    "py": " python3 -m venv venv && python3 -m venv .venv && source venv/bin/activate",
+    "py": " python3 -m venv venv && python3 -m venv .venv && source .venv/bin/activate",
     "script": " python src/scraper/file-script.py",
-    "docker": "docker build -t pdf-waffleizer . && docker run --rm -v ${PWD}/src/assets:/usr/src/app/src/assets -p 3000:3000 pdf-waffleizer"
+    "docker": "docker build -t pdf-waffleizer . && docker run --rm -v ${PWD}/src/assets:/usr/src/app/src/assets -p 8000:8000 pdf-waffleizer"
   },
   "dependencies": {
     "@mdx-js/mdx": "^3.1.0",

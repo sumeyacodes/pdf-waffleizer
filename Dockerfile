@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:23-slim
 
 WORKDIR /usr/src/app
 
@@ -26,4 +26,5 @@ COPY . .
 
 # Expose and run
 EXPOSE 3000
+
 CMD ["npm", "run", "server"]

@@ -2,9 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   publish_images:
@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v4
       - name: build image
         run: |
-          docker build -t sumeyacodes/pdf-waffleizer:latest
+          docker build -t sumeyacodes/pdf-waffleizer:latest .
       - name: push image to docker hub
         run: |
           docker login -u sumeyacodes -p ${{ secrets.DOCKER_HUB_TOKEN }}
