@@ -1,4 +1,4 @@
-const baseUrl = "https://pdf-waffleizer-latest.onrender.com";
+const baseUrl = "https://pdf-waffleizer.onrender.com";
 // const baseUrl = "http://localhost:3000"; // for local dev
 
 const ENDPOINT = `${baseUrl}/scrape/file`;
