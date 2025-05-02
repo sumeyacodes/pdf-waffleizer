@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import baseRouter from "./routes/base";
 import scrapeRouter from "./routes/pdf-scraper";
+import baseRouter from "./routes/base";
 
 const LOCAL_CLIENT_URL = `http://localhost:5173`;
 const PROD_URL = "https://pdf-waffleizer.vercel.app";
@@ -32,13 +32,17 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 // ROUTES
-// base route
+// health-check endpoint
 app.use("/", baseRouter);
 // subroute for scraping
 app.use("/scrape", scrapeRouter);
 
 const PORT = 3000;
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+app.listen(PORT, (error) => {
+  if (!error) {
+    console.log(
+      "Server is Successfully Running, and App is listening on port" + PORT
+    );
+  } else console.log("Error occurred, server can't start", error);
 });
