@@ -1,5 +1,7 @@
-const ENDPOINT = `http://localhost:3000/scrape/file`;
+const baseUrl = "https://pdf-waffleizer.onrender.com";
+// const baseUrl = "http://localhost:3000"; // for local dev
 
+const ENDPOINT = `${baseUrl}/scrape/file`;
 export async function scrapeFile(file: File) {
   try {
     const formData = new FormData();
