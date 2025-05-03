@@ -39,10 +39,10 @@ app.use("/scrape", scrapeRouter);
 
 const PORT = 3000;
 
-app.listen(PORT, (error) => {
+app.listen(PORT, (error?: Error) => {
   if (!error) {
-    console.log(
-      "Server is Successfully Running, and App is listening on port" + PORT
-    );
-  } else console.log("Error occurred, server can't start", error);
+    console.log(`Server is successfully running on port ${PORT}`);
+  } else {
+    console.log("Error occurred, server can't start", error);
+  }
 });
