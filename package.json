@@ -9,15 +9,12 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "npx tsx --watch src/server/index.ts",
-    "py": " python3 -m venv venv && python3 -m venv .venv && source .venv/bin/activate",
+    "py": "python3 -m venv .venv && source .venv/bin/activate",
     "script": " python src/scraper/file-script.py",
-    "docker": "docker build -t pdf-waffleizer . && docker run --rm -v ${PWD}/src/assets:/usr/src/app/src/assets -p 8000:8000 pdf-waffleizer"
+    "docker": "docker build -t pdf-waffleizer . && docker run -p 8000:8000 pdf-waffleizer",
+    "pi": "pip install -r requirements.txt"
   },
   "dependencies": {
-    "@mdx-js/mdx": "^3.1.0",
-    "@mdx-js/react": "^3.1.0",
-    "@mdx-js/rollup": "^3.1.0",
-    "@tailwindcss/postcss": "^4.1.5",
     "@tailwindcss/vite": "^4.1.4",
     "@tanstack/react-query": "^5.74.11",
     "@tanstack/react-query-devtools": "^5.75.0",
@@ -31,11 +28,9 @@
     "lucide-react": "^0.503.0",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.2",
-    "openai": "^4.96.2",
-    "postcss": "^8.5.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "remark-mdx": "^3.1.0",
+    "react-markdown": "^10.1.0",
     "tailwindcss": "^4.1.5"
   },
   "devDependencies": {
