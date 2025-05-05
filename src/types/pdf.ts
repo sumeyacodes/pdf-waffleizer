@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 
-export interface UploadFileProps {
-  file: File | null;
-  onFileChange: Dispatch<SetStateAction<File | null>>;
+export interface FileProps {
+  filePDF: File;
+  markdownPDF?: string;
+  onFileUpload: Dispatch<SetStateAction<File>>;
 }

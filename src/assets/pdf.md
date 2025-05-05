@@ -1,4 +1,4 @@
-## Sample PDF
+<!-- ## Sample PDF
 
 ### This is a simple PDF ﬁle. Fun fun fun.
 
@@ -39,4 +39,4 @@ enim commodo interdum. Donec odio. Sed sollicitudin dui vitae justo._
 > penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus varius. Ut sit
 > amet diam suscipit mauris ornare aliquam. Sed varius. Duis arcu. Etiam tristique massa
 > eget dui. Phasellus congue. Aenean est erat, tincidunt eget, venenatis quis, commodo at,
-> quam.
+> quam. -->

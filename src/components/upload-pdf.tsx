@@ -1,28 +1,21 @@
 import { useState, FormEvent } from "react";
-import { usPDFScraper } from "../hooks/use-pdf-scraper";
+import { usePDFScraper } from "../hooks/use-pdf-scraper";
 import { UploadFile } from "./input-file";
 import { UploadButton } from "./upload-button";
 
 export function UploadPDF() {
-  const [file, setFile] = useState<File | null>(null);
-  const mutation = usPDFScraper();
+  const [filePDF, setFilePDF] = useState<File>(File.prototype);
+  const mutation = usePDFScraper();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
-    if (!file) {
+    if (!filePDF) {
       console.warn("No file selected");
       return;
     }
 
-    console.log("🛫 About to upload:", {
-      name: file.name,
-      size: file.size,
-      type: file.type,
-    });
-
     try {
-      await mutation.mutateAsync(file);
+      await mutation.mutateAsync(filePDF);
     } catch (err) {
       console.error("Upload failed:", err);
     }
@@ -33,8 +26,8 @@ export function UploadPDF() {
       onSubmit={handleSubmit}
       className="w-full bg-neutral-950 border border-neutral-800 rounded-lg p-6 shadow-sm space-y-5"
     >
-      <UploadFile file={file} onFileChange={setFile} />
-      <UploadButton disabled={!file} />
+      <UploadFile filePDF={filePDF} onFileUpload={setFilePDF} />
+      <UploadButton disabled={!filePDF} />
     </form>
   );
 }

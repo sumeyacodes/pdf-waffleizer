@@ -12,21 +12,22 @@ export async function scrapeFile(file: File) {
     for (const [key, value] of formData.entries()) {
       console.log("📦 formdata entry:", key, value);
     }
+    console.log("📦 formdata:", formData);
 
     // Add this log to be 100% sure about the endpoint URL
-    console.log(`🚀 Making fetch POST request to: ${ENDPOINT}`);
+    console.log(`🚀 Sending POST request to: ${ENDPOINT}`);
 
     const response = await fetch(ENDPOINT, {
       method: "POST",
       body: formData,
     });
 
-    console.log("⏳ calling endpoint:", ENDPOINT);
     console.log("📬 response status:", response.status, response.ok);
     console.log("successfully sent to server at endpoint", ENDPOINT);
+    console.log("📬 response:", response, typeof response);
 
     if (!response.ok) throw new Error(`server ${response.status}`);
-    console.log("✅ response:", response);
+
     return await response.json();
   } catch (error) {
     console.error("❌ scrapeFile failed:", error);

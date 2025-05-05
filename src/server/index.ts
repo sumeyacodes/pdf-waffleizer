@@ -4,7 +4,7 @@ import morgan from "morgan";
 import scrapeRouter from "./routes/pdf-scraper";
 import baseRouter from "./routes/base";
 
-const LOCAL_CLIENT_URL = `http://localhost:5173`;
+const LOCAL_CLIENT_URL = `http://localhost:4173`;
 const PROD_URL = "https://pdf-waffleizer.vercel.app";
 const allowedOrigins = [LOCAL_CLIENT_URL, PROD_URL];
 
