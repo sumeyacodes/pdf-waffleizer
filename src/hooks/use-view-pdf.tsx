@@ -8,8 +8,8 @@ export function useViewPDF() {
   } = useQuery({
     queryKey: ["filePDF"],
     enabled: false,
-    // queryFn property is needed for useQuery but we don't need to fetch anything here
-    // but since react markdown requires a string to render, can do this here
+    // query func is needed for useQuery, but we don't need to fetch anything here
+    // so since react markdown requires a string to render, can do this here
     queryFn: () => "",
     staleTime: Infinity,
     throwOnError: false,

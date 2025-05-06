@@ -1,12 +1,14 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import scrapeRouter from "./routes/pdf-scraper";
+import pdfScrapeRouter from "./routes/pdf-scraper";
 import baseRouter from "./routes/base";
+import ttsRouter from "./routes/generate-audio";
 
-const LOCAL_CLIENT_URL = `http://localhost:4173`;
+const LOCAL_DEV_URL = `http://localhost:5173`;
+const LOCAL_PROD_URL = `http://localhost:4173`;
 const PROD_URL = "https://pdf-waffleizer.vercel.app";
-const allowedOrigins = [LOCAL_CLIENT_URL, PROD_URL];
+const allowedOrigins = [LOCAL_DEV_URL, PROD_URL, LOCAL_PROD_URL];
 
 const app = express();
 
@@ -35,7 +37,9 @@ app.use(express.json());
 // health-check endpoint
 app.use("/", baseRouter);
 // subroute for scraping
-app.use("/scrape", scrapeRouter);
+app.use("/scrape", pdfScrapeRouter);
+// subroute for text-to-speech
+app.use("/tts", ttsRouter);
 
 const PORT = 3000;
 
