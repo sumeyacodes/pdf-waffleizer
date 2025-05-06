@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import pdfScrapeRouter from "./routes/pdf-scraper";
-import baseRouter from "./routes/base";
+import baseRouter from "./routes/test";
 import ttsRouter from "./routes/generate-audio";
 
 const LOCAL_DEV_URL = `http://localhost:5173`;
