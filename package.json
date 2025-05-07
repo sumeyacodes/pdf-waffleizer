@@ -12,7 +12,8 @@
     "py": "uv venv && uv pip install -r requirements.txt",
     "script": "uv python src/scraper/file-script.py",
     "docker": "docker build -t pdf-waffleizer . && docker run -p 8000:8000 pdf-waffleizer",
-    "pi": "uv pip install -r requirements.txt"
+    "pi": "uv pip install -r requirements.txt",
+    "prepare": "husky"
   },
   "dependencies": {
     "@google-cloud/speech": "^7.0.1",
@@ -47,6 +48,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "husky": "^9.1.7",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.4",
     "typescript": "~5.7.2",
