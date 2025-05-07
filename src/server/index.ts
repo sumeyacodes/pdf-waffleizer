@@ -12,7 +12,7 @@ const allowedOrigins = [LOCAL_DEV_URL, PROD_URL, LOCAL_PROD_URL];
 
 const app = express();
 
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.urlencoded({ extended: true }));
 
 // MIDDLEWARE
 // allow cors for local dev and prod urls
