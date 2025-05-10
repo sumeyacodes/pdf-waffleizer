@@ -5,12 +5,13 @@ WORKDIR /usr/src/app
 # Copy package manifests
 COPY package.json requirements.txt ./
 
-# Install Python3, venv, pip, set up virtualenv and install Python deps
+# Install curl and dependencies for uv, install uv, set up Python env
 RUN apt-get update && \
-    apt-get install -y python3 python3-venv python3-pip && \
-    rm -rf /var/lib/apt/lists/* && \
-    python3 -m venv .venv && \
-    .venv/bin/pip install --no-cache-dir -r requirements.txt
+    apt-get install -y curl && \
+    curl -LsSf https://astral.sh/uv/install.sh | sh && \
+    mv ~/.cargo/bin/uv /usr/local/bin/uv && \
+    uv venv && \
+    uv pip install -r requirements.txt
 
 # Use venv Python on PATH for runtime
 ENV PATH="/usr/src/app/.venv/bin:$PATH"
@@ -25,6 +26,6 @@ RUN mkdir uploads
 COPY . .
 
 # Expose and run
-EXPOSE 3000
+EXPOSE 8000
 
 CMD ["npm", "run", "server"]
