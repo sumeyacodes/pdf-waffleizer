@@ -37,8 +37,5 @@ export function useGenerateAudio() {
     isFetching: mutation.isPending,
     isError: mutation.isError,
     error: mutation.error,
-    // expose mutation methods for triggering audio generation
-    mutate: mutation.mutate,
-    mutateAsync: mutation.mutateAsync,
   };
 }

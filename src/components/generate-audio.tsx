@@ -10,7 +10,7 @@ export function GenerateAudio() {
 
 
   const audio = async () => {
-  const blob = await generateAudio(textContent as string);
+  const blob = await generateAudio(textContent as string ?? "ha ha ha, doesn't work. you suck");
     const url = URL.createObjectURL(blob);
     setAudioUrl(url);
   };
