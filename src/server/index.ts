@@ -3,7 +3,7 @@ import cors from "cors";
 import morgan from "morgan";
 import pdfScrapeRouter from "./routes/pdf-scraper";
 import baseRouter from "./routes/test";
-// import ttsRouter from "./routes/generate-audio";
+import ttsRouter from "./routes/generate-audio";
 
 const LOCAL_DEV_URL = `http://localhost:5173`;
 const LOCAL_PROD_URL = `http://localhost:4173`;
@@ -39,7 +39,7 @@ app.use("/", baseRouter);
 // subroute for scraping
 app.use("/scrape", pdfScrapeRouter);
 // subroute for text-to-speech
-// app.use("/tts", ttsRouter);
+app.use("/tts", ttsRouter);
 
 const PORT = 3000;
 

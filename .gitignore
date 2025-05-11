@@ -15,6 +15,10 @@ venv/
 .venv/
 .env
 uploads/
+tts.json
+google-cloud-sdk
+tts-qwiklab.json
+
 
 # Editor directories and files
 .vscode/*
