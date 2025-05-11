@@ -1,10 +1,12 @@
+import { ScrapedPDF } from "../types/pdf";
+
 // Read the base URL from Vite's environment variables
 // VITE_ prefix is important for Vite to expose it to the client-side code
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const ENDPOINT = `${baseUrl}/scrape/file`;
 
-export async function scrapeFile(file: File) {
+export async function scrapeFile(file: File): Promise<ScrapedPDF> {
   try {
     const formData = new FormData();
     formData.append("file", file);
@@ -14,7 +16,6 @@ export async function scrapeFile(file: File) {
     }
     console.log("📦 formdata:", formData);
 
-    // Add this log to be 100% sure about the endpoint URL
     console.log(`🚀 Sending POST request to: ${ENDPOINT}`);
 
     const response = await fetch(ENDPOINT, {
@@ -28,7 +29,9 @@ export async function scrapeFile(file: File) {
 
     if (!response.ok) throw new Error(`server ${response.status}`);
 
-    return await response.json();
+    const data = await response.json();
+
+    return { markdown: data.markdown, text: data.text };
   } catch (error) {
     console.error("❌ scrapeFile failed:", error);
     throw error;

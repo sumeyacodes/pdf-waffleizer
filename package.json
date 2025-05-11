@@ -10,6 +10,7 @@
     "start": "npm run build && vite preview",
     "server": "npx tsx --watch src/server/index.ts",
     "py": "uv venv && uv pip install -r requirements.txt",
+    "activate": "source .venv/bin/activate",
     "script": "uv python src/scraper/file-script.py",
     "docker": "docker build -t pdf-waffleizer . && docker run -p 8000:8000 pdf-waffleizer",
     "pi": "uv pip install -r requirements.txt",

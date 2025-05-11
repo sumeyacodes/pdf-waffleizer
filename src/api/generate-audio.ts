@@ -3,6 +3,8 @@ const ENDPOINT = `${baseUrl}/tts`;
 
 export async function generateAudio(text: string): Promise<Blob> {
   try {
+
+    // send the text to the server
     const response = await fetch(ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -15,6 +17,8 @@ export async function generateAudio(text: string): Promise<Blob> {
 
     console.log("📬 response status:", response.status, response.ok);
 
+    // audio content is returned as blob
+    // idek what blob is
     return await response.blob();
   } catch (error) {
     console.error("❌ generateAudio failed:", error);

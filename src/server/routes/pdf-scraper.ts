@@ -2,69 +2,59 @@ import express from "express";
 import multer from "multer";
 import path from "path";
 import { fileURLToPath } from "url";
-import { spawn } from "child_process";
-// i forgot what these do
+import { exec } from "child_process";
+// import fs from "fs/promises";
+
+// paths for the scripts & the uploaded files
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-// path to python script for pdf scraping
-const scrapeScript = path.join(
-  __dirname,
-  "../../../src/scraper/file-script.py"
-);
 
-// multer uploads file from frontend to server
-// codeql alerted security issue because http requests that interact with filesystem should have rate limits
+// router & multer config
+const router = express.Router();
 const upload = multer({ dest: "uploads/" });
 
-const router = express.Router();
-console.log("🔍 PDF SCRAPER ROUTER INITIALIZED");
-
-router.post("/file", upload.single("file"), (req, res) => {
+router.post("/file", upload.single("file"), async (req, res) => {
   if (!req.file) {
-    res.status(400).json({
-      error: "❌ No file uploaded",
-    });
-    console.error("❌ No file uploaded");
+   res.status(400).json({ error: "No file uploaded" });
     return;
   }
-
-  // run python script
-  const py = spawn("python3", [scrapeScript, req.file.path]);
-
-  // capture stdout terminal output of python script (markdown content)
-  let stdout = "";
-  py.stdout.on("data", (data) => {
-    stdout += data.toString();
-  });
-
-  // capture stderr for debugging python script errors
-  let stderr = "";
-  py.stderr.on("data", (data) => {
-    stderr += data.toString();
-  });
-
-  // triggered when Python process terminates, regardless of exit code
-  py.on("close", (code) => {
-    if (code === 0) {
-      console.log(`✅ PDF processing successful with exit code: ${code}`);
-
-      return res.status(200).json({
-        status: `✅ PDF scrape successful: Python exit code ${code}`,
-        stderr: stderr, // python script messages
-        file: stdout, // markdown content
-        upload: req.file?.filename,
-      });
-    } else {
-      console.error(`🚫 PDF processing failed with exit code: ${code}`);
-
-      return res.status(500).json({
-        status: `🚫 PDF scrape unsuccessful: Python ${code})`,
-        stderr: stderr, // python script messages
-        file: null,
-        upload: req.file?.filename,
-      });
-    }
-  });
+  
+  // uploaded pdf file path
+  const filePath = req.file.path;
+  
+  try {
+    // run both text & md extraction scripts
+    const [markdown, text] = await Promise.all([
+      runPythonScript("extract-md.py", filePath),
+      runPythonScript("extract-text.py", filePath)
+    ]);
+    
+    res.json({ markdown, text });
+    
+    // clean up file after sending response
+    // fs.unlink(filePath).catch(err => 
+    //   console.error("Failed to delete file:", err)
+    // );
+    
+  } catch (error) {
+    console.error("PDF extraction error:", error, error);
+    res.status(500).json({ error: "🔴 Processing failed" });
+    
+    // clean up on error
+    // fs.unlink(filePath).catch(() => {});
+  }
 });
+
+// helper function to run python scripts (child process exec instead of spawn)
+async function runPythonScript(scriptName: string, filePath: string) {
+  const scriptPath = path.join(__dirname, "../../../src/scripts", scriptName);
+  
+  return new Promise((resolve, reject) => {
+    exec(`python3 "${scriptPath}" "${filePath}"`, (error, stdout) => {
+      if (error) return reject(error);
+      resolve(stdout.trim());
+    });
+  });
+}
 
 export default router;
