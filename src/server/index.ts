@@ -4,6 +4,7 @@ import morgan from "morgan";
 import pdfScrapeRouter from "./routes/pdf-scraper";
 import baseRouter from "./routes/test";
 import ttsRouter from "./routes/generate-audio";
+import helmet from "helmet";
 
 const LOCAL_DEV_URL = `http://localhost:5173`;
 const LOCAL_PROD_URL = `http://localhost:4173`;
@@ -11,8 +12,6 @@ const PROD_URL = "https://pdf-waffleizer.vercel.app";
 const allowedOrigins = [LOCAL_DEV_URL, PROD_URL, LOCAL_PROD_URL];
 
 const app = express();
-
-// app.use(express.urlencoded({ extended: true }));
 
 // MIDDLEWARE
 // allow cors for local dev and prod urls
@@ -30,8 +29,9 @@ app.use(
 
 // morgan - for logging in terminal
 app.use(morgan("dev"));
-// parsing json
 app.use(express.json());
+// security headers
+app.use(helmet());
 
 // ROUTES
 // health-check endpoint

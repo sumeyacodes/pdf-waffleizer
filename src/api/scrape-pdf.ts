@@ -1,39 +1,27 @@
 import { CurrentPDF } from "../types/pdf";
 
-// Read the base URL from Vite's environment variables
-// VITE_ prefix is important for Vite to expose it to the client-side code
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
-const ENDPOINT = `${baseUrl}/scrape/file`;
+const ENDPOINT = `${import.meta.env.VITE_API_BASE_URL}/scrape/file`;
 
 export async function scrapeFile(file: File): Promise<CurrentPDF> {
+  const formData = new FormData();
+  formData.append("file", file);
+
   try {
-    const formData = new FormData();
-    formData.append("file", file);
-
-    for (const [key, value] of formData.entries()) {
-      console.log("📦 formdata entry:", key, value);
-    }
-    console.log("📦 formdata:", formData);
-
-    console.log(`🚀 Sending POST request to: ${ENDPOINT}`);
+    console.log(`📨 Sending PDF to ${ENDPOINT}`);
 
     const response = await fetch(ENDPOINT, {
       method: "POST",
       body: formData,
     });
 
-    console.log("📬 response status:", response.status, response.ok);
-    console.log("successfully sent to server at endpoint", ENDPOINT);
-    console.log("📬 response:", response, typeof response);
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status} - ${response.statusText}`);
+    }
 
-    if (!response.ok) throw new Error(`server ${response.status}`);
-
-    const data = await response.json();
-
-    return data;
+    console.log(`✅ Successfully processed PDF (${response.status})`);
+    return (await response.json()) as CurrentPDF;
   } catch (error) {
-    console.error("❌ scrapeFile failed:", error);
-    throw error;
+    console.error("❌ PDF upload failed:", error);
+    throw new Error(`❌ scripeFile API failed: ${error}`);
   }
 }

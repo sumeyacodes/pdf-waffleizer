@@ -33,6 +33,7 @@
     "date-fns": "^4.1.0",
     "express": "^5.1.0",
     "google-auth-library": "^9.15.1",
+    "helmet": "^8.1.0",
     "lucide-react": "^0.503.0",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.2",

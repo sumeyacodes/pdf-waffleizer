@@ -6,7 +6,7 @@ export function ViewPDF() {
   const { currentPDF, isLoading } = useCurrentPDF();
 
   return (
-    <section className="prose prose-xl w-full max-w-full bg-neutral-400 border border-neutral-800 text-neutral-900 rounded-lg px-10 py-4 shadow-sm space-y-4  text-start font-mono">
+    <section className="prose prose-xl w-full max-w-full bg-neutral-400 border border-neutral-800 text-neutral-900 rounded-lg px-6 py-6 shadow-sm space-y-4  text-start font-mono">
       {currentPDF && (
         <article className="font-sans text-[1.1rem] text-end text-neutral-700 text-sm">
           <p>{currentPDF?.name}</p>
