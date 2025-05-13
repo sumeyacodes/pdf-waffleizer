@@ -1,41 +1,26 @@
-import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { generateAudio } from "../api/generate-audio";
+import { CurrentPDF } from "../types/pdf";
 
-export function useGenerateAudio() {
-  const qc = useQueryClient();
-  
-  // directly access text content from query cache
-  const textContent = qc.getQueryData<string>(["textContent"]);
-  
-  const mutation = useMutation<Blob, Error, void>({
+export const useGenerateAudio = () => {
+  const queryClient = useQueryClient();
 
-    mutationKey: ['generateAudio'],
-    mutationFn: async () => {
-      if (!textContent) {
-        throw new Error("No text content available for audio generation");
-      }
-      console.log(`Generating audio for ${textContent.length} characters`);
-      return generateAudio(textContent);
+  return useMutation<Blob, Error, string>({
+    mutationFn: async (text: string) => {
+      const audio = await generateAudio(text);
+      return audio;
     },
+    onSuccess: (audio) => {
+      queryClient.setQueryData<CurrentPDF>(["currentPDF"], (currentPDF) => {
+        if (!currentPDF) {
+          throw new Error("No PDF data found in cache");
+        }
 
-    // log the start of the mutation
-    onSuccess: (audioBlob) => {
-      console.log("Audio generation successful, blob size:", audioBlob.size);
-      qc.setQueryData(['audioBlob'], audioBlob);
+        return {
+          ...currentPDF,
+          audio,
+        };
+      });
     },
-    onError: (error) => {
-      console.error("Audio generation failed:", error);
-    }
   });
-  
-  // get cached audio blob if available
-  // const cachedAudio = qc.getQueryData<Blob>(['audioBlob']);
-  
-  return {
-    textContent,
-    audioBlob: mutation.data,
-    isFetching: mutation.isPending,
-    isError: mutation.isError,
-    error: mutation.error,
-  };
-}
+};

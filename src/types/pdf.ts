@@ -1,14 +1,15 @@
 import { Dispatch, SetStateAction } from "react";
-
-export interface FileProps {
-  filePDF: File;
-  markdownPDF?: string;
+export interface UploadFileProps {
   onFileUpload: Dispatch<SetStateAction<File>>;
-  message?: string;
+  filePDF: File;
 }
 
-
-export interface ScrapedPDF {
+export interface CurrentPDF {
+  file: File;
+  name: string;
+  time: string;
   markdown: string;
   text: string;
+  audio?: Blob;
+  audioUrl?: string;
 }

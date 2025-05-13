@@ -1,16 +1,21 @@
 import Markdown from "react-markdown";
-import { useViewPDF } from "../hooks/use-view-pdf";
-import { DefaultMD } from "../hooks/use-view-pdf";
+import { useCurrentPDF } from "../hooks/use-current-pdf";
+import { DefaultMD } from "./default-pdf";
 
 export function ViewPDF() {
-  const { MarkdownPDF, isLoading } = useViewPDF();
+  const { currentPDF, isLoading } = useCurrentPDF();
 
   return (
-    <section className="prose prose-xl w-full max-w-full bg-neutral-400 border border-neutral-800 text-neutral-900 rounded-lg px-10 py-8 shadow-sm space-y-4 text-start font-mono">
+    <section className="prose prose-xl w-full max-w-full bg-neutral-400 border border-neutral-800 text-neutral-900 rounded-lg px-10 py-2 shadow-sm space-y-4 text-start font-mono">
+      <article className=" font-sans text-[1.1rem] text-end text-neutral-700 text-sm p-2">
+        <p>{currentPDF?.name}</p>
+        <p>{currentPDF?.time}</p>
+      </article>
+
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <Markdown>{MarkdownPDF || DefaultMD}</Markdown>
+        <Markdown>{currentPDF?.markdown || DefaultMD}</Markdown>
       )}
     </section>
   );

@@ -1,14 +1,3 @@
-import { useQueryClient, useIsMutating } from "@tanstack/react-query";
-
-export function useViewPDF() {
-  const qc = useQueryClient();
-  // retrieve stored markdown content
-  const MarkdownPDF = qc.getQueryData<string>(["markdownPDF"]);
-  // loading state based on scrape mutation
-  const isLoading = useIsMutating({ mutationKey: ["scrapePDF"] }) > 0;
-  return { MarkdownPDF, isLoading };
-}
-
 export const DefaultMD = `## Sample PDF
 
 ### This is a simple PDF ﬁle. Fun fun fun.
@@ -52,4 +41,3 @@ enim commodo interdum. Donec odio. Sed sollicitudin dui vitae justo._
 > eget dui. Phasellus congue. Aenean est erat, tincidunt eget, venenatis quis, commodo at,
 > quam.
 `;
-
