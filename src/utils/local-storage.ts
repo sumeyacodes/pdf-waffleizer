@@ -1,22 +1,27 @@
-import { CurrentPDF } from "./types";
+import { PDF } from "./types";
 
-export async function getCurrentPDF(key: string): Promise<CurrentPDF> {
+export async function getCurrentPDF(key: string): Promise<PDF> {
   const item = window.localStorage.getItem(key);
   if (!item) throw new Error(`No current PDF in localStorage under "${key}"`);
 
-  return JSON.parse(item) as CurrentPDF;
+  return JSON.parse(item) as PDF;
 }
 
-export function saveCurrentPDF(key: string, pdf: CurrentPDF) {
-  window.localStorage.setItem(key, JSON.stringify(pdf));
+export function getStoredPDFs(): PDF[] {
+  const item = window.localStorage.getItem("storedPDFs");
+  const storedPDFs = item ? JSON.parse(item) : [];
 
+  return storedPDFs;
+}
+
+export function saveCurrentPDF(key: string, pdf: PDF) {
+  window.localStorage.setItem(key, JSON.stringify(pdf));
   const storedPDFs = getStoredPDFs();
 
-  // check if PDF with same id exists (updating generated audio )
+  // check if PDF with same id exists (updating generated audio)
   const existingIndex = storedPDFs.findIndex(
     (existingPdf) => existingPdf.id === pdf.id
   );
-
   if (existingIndex >= 0) {
     storedPDFs[existingIndex] = pdf;
   } else {
@@ -26,11 +31,10 @@ export function saveCurrentPDF(key: string, pdf: CurrentPDF) {
   window.localStorage.setItem("storedPDFs", JSON.stringify(storedPDFs));
 }
 
-export function getStoredPDFs(): CurrentPDF[] {
-  const item = window.localStorage.getItem("storedPDFs");
-  const storedPDFs = item ? JSON.parse(item) : [];
+export function deletePDF(key: string, pdf: PDF) {
+  window.localStorage.removeItem(key);
+  const storedPDFs = getStoredPDFs();
+  const updatedPDFs = storedPDFs.filter((storedPdf) => storedPdf.id !== pdf.id);
 
-  return storedPDFs;
+  window.localStorage.setItem("storedPDFs", JSON.stringify(updatedPDFs));
 }
-
-// localStorage.clear();

@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "start": "npm run build && vite preview",
-    "server": "npx tsx --watch src/server/index.ts",
+    "server": "npx tsx --watch src/server/app.ts",
     "py": "uv venv && uv pip install -r requirements.txt",
     "activate": "source .venv/bin/activate",
     "script": "uv python src/scraper/file-script.py",

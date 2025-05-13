@@ -30,16 +30,6 @@ export function GenerateAudio() {
           Convert to Audio
         </p>
       </button>
-
-      {/* need to move audio player to separate component  */}
-      {/* {audio?.audioBlob && (
-        <audio
-          src={audio.audioUrl}
-          controls
-          autoPlay
-          className="w-full rounded-lg mt-4"
-        />
-      )} */}
     </article>
   );
 }

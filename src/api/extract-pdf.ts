@@ -1,8 +1,8 @@
-import { CurrentPDF } from "../utils/types";
+import { PDF } from "../utils/types";
 
-const ENDPOINT = `${import.meta.env.VITE_API_BASE_URL}/scrape/file`;
+const ENDPOINT = `${import.meta.env.VITE_API_BASE_URL}/extract-pdf/file`;
 
-export async function scrapeFile(file: File): Promise<CurrentPDF> {
+export async function extractPDF(file: File): Promise<PDF> {
   const formData = new FormData();
   formData.append("file", file);
 
@@ -17,11 +17,12 @@ export async function scrapeFile(file: File): Promise<CurrentPDF> {
     if (!response.ok) {
       throw new Error(`HTTP ${response.status} - ${response.statusText}`);
     }
-
     console.log(`✅ Successfully processed PDF (${response.status})`);
-    return (await response.json()) as CurrentPDF;
+
+    return (await response.json()) as PDF;
   } catch (error) {
     console.error("❌ PDF upload failed:", error);
+
     throw new Error(`❌ scripeFile API failed: ${error}`);
   }
 }

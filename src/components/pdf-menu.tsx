@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useStoredPDFs } from "../hooks/use-stored-pdfs";
-import { CurrentPDF } from "../utils/types";
-import { MenuIcon } from "lucide-react";
+import { MenuIcon, Trash2 } from "lucide-react";
+import { PDF } from "../utils/types";
+import { useDeletePDF } from "../hooks/use-delete-pdf";
 
 export function PDFmenu() {
   const { data: pdfs } = useStoredPDFs();
@@ -25,7 +26,7 @@ export function PDFmenu() {
         ) : (
           <li className="space-y-3">
             {pdfs.map((pdf) => (
-              <PDFItem key={pdf.id} pdf={pdf} />
+              <StoredPDFitem key={pdf.id} pdf={pdf} />
             ))}
           </li>
         )}
@@ -34,9 +35,25 @@ export function PDFmenu() {
   );
 }
 
-const PDFItem = ({ pdf }: { pdf: CurrentPDF }) => (
-  <>
-    <h2 className="font-bold">{pdf.name}</h2>
-    <p className="text-xs text-neutral-400">{pdf.time}</p>
-  </>
-);
+const StoredPDFitem = ({ pdf }: { pdf: PDF }) => {
+  const { mutate: deletePdf } = useDeletePDF();
+
+  const handleDelete = () => {
+    deletePdf(pdf);
+  };
+
+  return (
+    <div className="flex justify-between items-start border-b border-neutral-800 pb-3">
+      <div>
+        <h2 className="font-bold">{pdf.name}</h2>
+        <p className="text-xs text-neutral-400">{pdf.time}</p>
+      </div>
+      <button
+        onClick={handleDelete}
+        className="text-red-500 hover:text-red-400 p-1"
+        title="Delete PDF">
+        <Trash2 size={16} />
+      </button>
+    </div>
+  );
+};

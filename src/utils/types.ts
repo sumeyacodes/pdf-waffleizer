@@ -9,7 +9,7 @@ export interface Audio {
   audioUrl?: string;
 }
 
-export interface CurrentPDF extends Audio {
+export interface PDF extends Audio {
   id: string;
   file: File;
   name: string;

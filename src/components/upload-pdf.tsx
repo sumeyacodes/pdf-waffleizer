@@ -1,11 +1,11 @@
 import { useState, FormEvent } from "react";
-import { useScrapePDF } from "../hooks/use-scrape-pdf";
+import { useExtractPDF } from "../hooks/use-extract-pdf";
 import { UploadFile } from "./input-file";
 import { UploadButton } from "./upload-button";
 
 export function UploadPDF() {
   const [filePDF, setFilePDF] = useState<File>(File.prototype);
-  const { mutate } = useScrapePDF();
+  const { mutate } = useExtractPDF();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();

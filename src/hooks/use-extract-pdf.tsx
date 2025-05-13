@@ -1,15 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { scrapeFile } from "../api/scrape-pdf";
-import { CurrentPDF } from "../utils/types";
+import { extractPDF } from "../api/extract-pdf";
+import { PDF } from "../utils/types";
 import { format } from "date-fns";
 import { saveCurrentPDF } from "../utils/local-storage";
 
-export const useScrapePDF = () => {
+export const useExtractPDF = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<CurrentPDF, Error, File>({
+  return useMutation<PDF, Error, File>({
     mutationFn: async (file) => {
-      const { markdown, text } = await scrapeFile(file);
+      const { markdown, text } = await extractPDF(file);
       return {
         id: crypto.randomUUID(),
         file,
