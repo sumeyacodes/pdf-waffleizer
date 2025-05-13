@@ -1,5 +1,4 @@
 import { useState, FormEvent } from "react";
-// import { usePDFScraper } from "../hooks/use-pdf-scraper";
 import { useScrapePDF } from "../hooks/use-scrape-pdf";
 import { UploadFile } from "./input-file";
 import { UploadButton } from "./upload-button";

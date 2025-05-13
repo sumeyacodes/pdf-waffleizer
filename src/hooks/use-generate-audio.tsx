@@ -1,26 +1,25 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { generateAudio } from "../api/generate-audio";
-import { CurrentPDF } from "../types/pdf";
+import { Audio, CurrentPDF } from "../utils/types";
+import { saveCurrentPDF } from "../utils/local-storage";
 
 export const useGenerateAudio = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<Blob, Error, string>({
-    mutationFn: async (text: string) => {
-      const audio = await generateAudio(text);
-      return audio;
+  return useMutation<Audio, Error, string>({
+    mutationFn: async (text) => {
+      const blob = await generateAudio(text);
+
+      return { audioBlob: blob, audioUrl: URL.createObjectURL(blob) };
     },
     onSuccess: (audio) => {
-      queryClient.setQueryData<CurrentPDF>(["currentPDF"], (currentPDF) => {
-        if (!currentPDF) {
-          throw new Error("No PDF data found in cache");
-        }
+      const current = queryClient.getQueryData<CurrentPDF>(["currentPDF"]);
+      if (!current) throw new Error("No PDF in cache");
 
-        return {
-          ...currentPDF,
-          audio,
-        };
-      });
+      const updated = { ...current, audio };
+      queryClient.setQueryData(["currentPDF"], updated);
+
+      saveCurrentPDF("currentPDF", updated);
     },
   });
 };

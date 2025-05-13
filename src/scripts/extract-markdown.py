@@ -17,10 +17,9 @@ if not os.path.isfile(pdf_path):
 try:
     # Convert the PDF to Markdown
     doc = pymupdf4llm.to_markdown(pdf_path)
+    
     # Print the Markdown content to standard output
     print(doc)
-    
-    # Optional: Log success to stderr so it doesn't mix with stdout markdown
     print(f"✅ PDF successfully scraped, passing back to server {pdf_path}", file=sys.stderr)
 
 except Exception as e:

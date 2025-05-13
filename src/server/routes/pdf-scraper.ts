@@ -42,7 +42,7 @@ router.post(
     try {
       // run extraction scripts
       const [markdown, text] = await Promise.all([
-        runExtractionScript("extract-md.py", filePath),
+        runExtractionScript("extract-markdown.py", filePath),
         runExtractionScript("extract-text.py", filePath),
       ]);
       console.log(markdown, text);

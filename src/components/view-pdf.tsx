@@ -3,7 +3,9 @@ import { useCurrentPDF } from "../hooks/use-current-pdf";
 import { DefaultMD } from "./default-pdf";
 
 export function ViewPDF() {
-  const { currentPDF, isLoading } = useCurrentPDF();
+  const { data: currentPDF, isLoading } = useCurrentPDF();
+
+  if (isLoading) return <p>Loading...</p>;
 
   return (
     <section className="prose prose-xl w-full max-w-full bg-neutral-400 border border-neutral-800 text-neutral-900 rounded-lg px-6 py-6 shadow-sm space-y-4  text-start font-mono">

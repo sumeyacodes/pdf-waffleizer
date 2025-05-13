@@ -4,12 +4,17 @@ export interface UploadFileProps {
   filePDF: File;
 }
 
-export interface CurrentPDF {
+export interface Audio {
+  audioBlob?: Blob;
+  audioUrl?: string;
+}
+
+export interface CurrentPDF extends Audio {
+  id: string;
   file: File;
   name: string;
   time: string;
   markdown: string;
   text: string;
-  audio?: Blob;
-  audioUrl?: string;
+  audio?: Audio;
 }

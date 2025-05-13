@@ -1,4 +1,4 @@
-import { CurrentPDF } from "../types/pdf";
+import { CurrentPDF } from "../utils/types";
 
 const ENDPOINT = `${import.meta.env.VITE_API_BASE_URL}/scrape/file`;
 
