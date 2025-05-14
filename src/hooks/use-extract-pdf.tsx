@@ -29,6 +29,7 @@ export const useExtractPDF = () => {
     onSuccess: (pdf: PDF) => {
       queryClient.setQueryData<PDF>(mutationKey, pdf);
       saveCurrentPDF("currentPDF", pdf);
+      console.log(pdf.text);
       queryClient.invalidateQueries({ queryKey: ["storedPDFs"] });
     },
   });

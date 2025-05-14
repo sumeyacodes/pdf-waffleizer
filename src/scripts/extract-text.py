@@ -1,6 +1,9 @@
 import sys
 import os
-import fitz
+
+from markitdown import MarkItDown
+
+# need to spell check for tts
 
 # 1) grab the PDF path from args from /uploads (server)
 if len(sys.argv) < 2:
@@ -15,19 +18,17 @@ if not os.path.isfile(pdf_path):
 
 # 3) open & scrape
 try:
-    # Convert the PDF to text for audio
-    textContent = ""
-    doc = fitz.open(pdf_path)
-    for page in doc:
-        textContent += page.get_text()
-    doc.close()
 
-    # Print the extracted text content to standard output
-    print(textContent)
-    
-    # Optional: Log success to stderr so it doesn't mix with stdout markdown
+    md = MarkItDown(enable_plugins=False)
+    result = md.convert(pdf_path)
+    print(result.text_content)
+
+    # print(text)
     print(f"✅ PDF successfully scraped, passing back to server {pdf_path}", file=sys.stderr)
 
 except Exception as e:
     print(f"❌ Error scraping PDF {pdf_path}: {e}", file=sys.stderr)
-    sys.exit(2) # Use a different exit code for PDF processing errors
+    sys.exit(2) 
+
+
+

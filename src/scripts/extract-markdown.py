@@ -1,6 +1,9 @@
 import sys
 import os
-import pymupdf4llm
+
+from markitdown import MarkItDown
+
+# need to manually convert to Marddown?
 
 # 1) grab the PDF path from args from /uploads (server)
 if len(sys.argv) < 2:
@@ -15,13 +18,14 @@ if not os.path.isfile(pdf_path):
 
 # 3) open & scrape
 try:
-    # Convert the PDF to Markdown
-    doc = pymupdf4llm.to_markdown(pdf_path)
-    
-    # Print the Markdown content to standard output
-    print(doc)
+
+    md = MarkItDown(enable_plugins=False)
+    result = md.convert(pdf_path)
+    print(result.text_content)
+
+    # print(text)
     print(f"✅ PDF successfully scraped, passing back to server {pdf_path}", file=sys.stderr)
 
 except Exception as e:
     print(f"❌ Error scraping PDF {pdf_path}: {e}", file=sys.stderr)
-    sys.exit(2) # Use a different exit code for PDF processing errors
+    sys.exit(2) 

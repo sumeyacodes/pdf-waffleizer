@@ -12,11 +12,26 @@ export async function generateAudio(req: Request, res: Response) {
     }
 
     console.log(`Processing text of length: ${text.length} characters`);
+
+    // needed for tts to read fluently
+    const escapeXml = (unsafe: string) =>
+      unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&apos;");
+
+    const paragraphs = text.split(/\n\s*\n/);
+    const ssml = `<speak>${paragraphs
+      .map((p: string) => `<p>${escapeXml(p)}</p>`)
+      .join("")}</speak>`;
+
     const request = {
-      input: { text },
+      input: { ssml },
       voice: {
         languageCode: "en-US",
-        ssmlGender: protos.google.cloud.texttospeech.v1.SsmlVoiceGender.NEUTRAL,
+        name: "en-US-Studio-O",
       },
       audioConfig: {
         audioEncoding: protos.google.cloud.texttospeech.v1.AudioEncoding.MP3,

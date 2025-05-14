@@ -6,6 +6,7 @@ export const useGenerateAudio = () => {
   const queryClient = useQueryClient();
 
   return useMutation<Audio, Error, string>({
+    mutationKey: ["generatingAudio"],
     mutationFn: async (text) => {
       const blob = await generateAudio(text);
 
