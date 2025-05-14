@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { generateAudio } from "../api/generate-audio";
 import { Audio, PDF } from "../utils/types";
-import { saveCurrentPDF } from "../utils/local-storage";
 
 export const useGenerateAudio = () => {
   const queryClient = useQueryClient();
@@ -17,9 +16,9 @@ export const useGenerateAudio = () => {
       if (!current) throw new Error("No PDF in cache");
 
       const updated = { ...current, audio };
-      queryClient.setQueryData(["currentPDF"], updated);
 
-      saveCurrentPDF("currentPDF", updated);
+      // update current pdf to trigger rerender
+      queryClient.setQueryData(["currentPDF"], updated);
     },
   });
 };

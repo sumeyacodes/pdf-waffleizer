@@ -1,21 +1,16 @@
 import { useCurrentPDF } from "../hooks/use-current-pdf";
 
 export function AudioPlayer() {
-  const { data: currentPDF, isLoading, error } = useCurrentPDF();
+  const { data: currentPDF } = useCurrentPDF();
 
-  if (currentPDF?.audio) {
-    if (isLoading) return <p>Loading…</p>;
-    if (error) return <p>Error: {error.message}</p>;
-  }
-
+  if (!currentPDF?.audio?.audioUrl) return null;
   return (
-    currentPDF?.audio?.audioBlob && (
-      <audio
-        src={currentPDF.audio.audioUrl}
-        controls
-        autoPlay
-        className="w-full rounded-lg mt-4"
-      />
-    )
+    <audio
+      key={currentPDF.audio.audioUrl}
+      src={currentPDF.audio.audioUrl}
+      controls
+      autoPlay
+      className="w-full rounded-lg mt-4"
+    />
   );
 }

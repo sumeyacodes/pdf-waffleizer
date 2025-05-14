@@ -1,13 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { PDF } from "../utils/types";
-import { getCurrentPDF } from "../utils/local-storage";
 
 export function useCurrentPDF() {
-  return useQuery<PDF, Error>({
+  const queryClient = useQueryClient();
+  return useQuery<PDF | null>({
     queryKey: ["currentPDF"],
-    queryFn: () => getCurrentPDF("currentPDF"),
-    // causing pdf to not show loading state
-    // but without it, page wont render
-    enabled: false,
+    queryFn: () => queryClient.getQueryData<PDF>(["currentPDF"]) ?? null,
+    staleTime: Infinity,
+    enabled: true,
   });
 }

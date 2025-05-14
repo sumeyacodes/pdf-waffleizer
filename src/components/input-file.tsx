@@ -6,7 +6,7 @@ export function UploadFile({ onFileUpload }: UploadFileProps) {
       id="upload-file"
       type="file"
       accept=".pdf"
-      className="w-full text-sm text-neutral-400  justify-between border border-neutral-800/60 rounded-md px-3 py-4"
+      className="w-full text-sm text-neutral-400  justify-between border border-neutral-800/60 rounded-md px-3 py-4 cursor-pointer"
       onChange={(e) => onFileUpload(e.target.files?.[0] as File)}
     />
   );

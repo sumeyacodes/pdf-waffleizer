@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 export interface UploadFileProps {
-  onFileUpload: Dispatch<SetStateAction<File>>;
-  filePDF: File;
+  onFileUpload: Dispatch<SetStateAction<File | null>>;
+  filePDF: File | null;
 }
 
 export interface Audio {
