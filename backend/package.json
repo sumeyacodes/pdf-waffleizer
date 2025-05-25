@@ -4,30 +4,28 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "npx tsx --watch config.ts",
-    "start": "npx tsx config.ts",
+    "dev": "tsx --watch config.ts",
+    "start": "tsx config.ts",
     "python": "uv venv",
-    "activate": "source .venv/bin/activate",
     "req": "uv pip install -r requirements.txt"
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
     "@types/helmet": "^0.0.48",
+    "@types/morgan": "^1.9.9",
     "@types/multer": "^1.4.12",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
     "morgan": "^1.10.0",
-    "multer": "^2.0.0"
+    "multer": "^2.0.0",
+    "tsx": "^4.19.4"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.17",
-    "@types/express": "^4.17.21",
-    "@types/morgan": "^1.9.9",
-    "nodemon": "^3.0.3",
     "ts-node": "^10.9.2",
-    "tsx": "^4.19.4",
     "typescript": "^5.3.3"
   }
 }
