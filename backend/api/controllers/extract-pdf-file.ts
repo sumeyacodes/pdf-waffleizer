@@ -6,7 +6,7 @@ import fs from "fs/promises";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const SCRIPTS_DIR = path.join(__dirname, "../../../src/scripts");
+const SCRIPTS_DIR = path.join(__dirname, "../../scripts");
 
 // no more manually deleting uploaded files :D
 async function cleanup(filePath: string) {
@@ -53,7 +53,6 @@ export async function extractPDF(req: Request, res: Response) {
       runExtractionScript("extract-markdown.py", filePath),
       runExtractionScript("extract-text.py", filePath),
     ]);
-    console.log(markdown, text);
 
     res.json({ markdown, text });
   } catch (error) {

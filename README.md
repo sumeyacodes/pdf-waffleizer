@@ -1,54 +1,141 @@
-# React + TypeScript + Vite
+# PDF Waffleizer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Live Demo:** [https://pdf-waffleizer.vercel.app](https://pdf-waffleizer.vercel.app)
 
-Currently, two official plugins are available:
+I started this project because my TTS (text-to-speech) Chrome extension couldn't read my PDF documents, so I built a solution that extracts readable text content from PDF files and generates natural-sounding audio using Google Cloud Platform's Text-to-Speech API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Core Features
 
-## Expanding the ESLint configuration
+- **PDF Upload & Text Extraction**  
+  Upload PDF files and extract clean, readable text.
+- **Markdown Conversion**  
+  Extracted text is converted into Markdown for easy viewing.
+- **Audio Generation**  
+  Generate speech using Google Cloud Text-to-Speech (TTS).
+- **SSML Support**  
+  Uses Speech Synthesis Markup Language (SSML) to handle special characters and improve speech synthesis.
+- **Local PDF Management**  
+  Save, view, and manage processed PDFs directly in your browser using local storage.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Project Structure
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+├── .github/
+├── backend/
+│   ├── api/
+│   │   ├── controllers/ # Request handlers & business logic
+│   │   └── routes/ # API endpoint definitions
+│   ├── scripts/ # Python PDF processing scripts
+│   ├── config.ts # Express server config
+│   └── Dockerfile
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── api/ # API requests to backend
+│   │   ├── app/
+│   │   ├── components/
+│   │   ├── hooks/ # Custom React hooks for PDF/audio state
+│   │   └── utils/ # Local storage utilities and type definitions
+└── README.md
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Architecture Overview
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+PDF Waffleizer employs a client-server architecture:
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+- **Frontend (React SPA)**  
+  Handles PDF uploads, displays extracted text, and manages audio generation via REST API calls.
+- **Backend (Node.js/Express)**  
+  Handles API requests, invokes Python scripts for text extraction, and integrates with Google Cloud TTS.
+
+## Key Workflows
+
+### 1. PDF Text Extraction
+
+1. **Upload**: User uploads a PDF via the `UploadPDF` component.
+2. **Send**: `useExtractPDF` hook sends the file to `/api/extract-pdf/file`.
+3. **Process**:
+   - `extract-pdf-file.ts` receives and uploads the file to a temporary location (using `multer`).
+   - Python scripts (`extract-text.py`, `extract-markdown.py`) extract and format text.
+4. **Response**: Extracted text is returned to the frontend.
+5. **View**: `ViewPDF` component displays the Markdown using `react-markdown`.
+
+### 2. Audio Generation
+
+1. **Trigger**: User clicks "Generate Audio" in the `GenerateAudio` component.
+2. **Send**: `useGenerateAudio` hook sends text to `/api/audio/google-tts`.
+3. **Synthesize**: `generate-audio.ts` uses Google Cloud TTS (with SSML) to create audio.
+4. **Receive**: Audio data (e.g., MP3) is returned.
+5. **Play**: `AudioPlayer` component handles audio playback.
+
+## Local Development Setup
+
+### Prerequisites
+
+Ensure the following are installed:
+
+- **Node.js (LTS)**  
+  _Includes `npm`_  
+  [Download Node.js](https://nodejs.org/)
+- **Python 3.10+**  
+  _Includes `pip` (usually bundled)._  
+  _Required for running backend PDF processing scripts._  
+  [Download Python](https://www.python.org/downloads/)
+- **uv**  
+  A fast Python package manager written in Rust. Optional but recommended for this project.  
+  [Install uv](https://astral.sh/uv)
+
+### Setup & Running
+
+1. **Clone the repository:**
+
+   ```sh
+   git clone https://github.com/sumeyacodes/pdf-waffleizer
+   cd pdf-waffleizer
+   ```
+
+2. **Backend Setup:**
+
+   _Using uv (recommended for this project):_
+
+   ```sh
+   uv venv
+   source .venv/bin/activate
+   ```
+
+   _Or using Python’s venv:_
+
+   ```sh
+   python -m venv .venv
+   source .venv/bin/activate
+   ```
+
+   **Install dependencies:**
+
+   ```sh
+   npm install
+   uv pip install -r requirements.txt   # If using uv
+
+   # OR
+   pip install -r requirements.txt      # If using standard venv
+   ```
+
+   **Run the backend server:**
+
+   ```sh
+   npm run server
+   ```
+
+   Server should run on port `3000`.
+
+3. **Frontend Setup**
+
+   _In a separate terminal window:_
+
+   ```sh
+   cd frontend
+   npm install
+   npm run dev
+   ```
+
+   Frontend should run on port `5173`.
