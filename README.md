@@ -123,7 +123,7 @@ Ensure the following are installed:
    **Run the backend server:**
 
    ```sh
-   npm run server
+   npm run dev
    ```
 
    Server should run on port `3000`.

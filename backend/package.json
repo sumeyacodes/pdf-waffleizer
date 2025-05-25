@@ -4,7 +4,8 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "server": "npx tsx --watch config.ts",
+    "dev": "npx tsx --watch config.ts",
+    "start": "npx tsx config.ts",
     "python": "uv venv",
     "activate": "source .venv/bin/activate",
     "req": "uv pip install -r requirements.txt"
@@ -26,6 +27,7 @@
     "@types/morgan": "^1.9.9",
     "nodemon": "^3.0.3",
     "ts-node": "^10.9.2",
+    "tsx": "^4.19.4",
     "typescript": "^5.3.3"
   }
 }
