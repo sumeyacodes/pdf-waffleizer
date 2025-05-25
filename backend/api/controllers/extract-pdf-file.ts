@@ -11,7 +11,15 @@ const SCRIPTS_DIR = path.join(__dirname, "../../scripts");
 // no more manually deleting uploaded files :D
 async function cleanup(filePath: string) {
   try {
-    await fs.unlink(filePath);
+    const UPLOADS_DIR = path.resolve(__dirname, "../../uploads");
+    const resolvedPath = path.resolve(filePath);
+
+    if (!resolvedPath.startsWith(UPLOADS_DIR)) {
+      console.error("Cleanup error: Attempted to delete a file outside the uploads directory");
+      return;
+    }
+
+    await fs.unlink(resolvedPath);
   } catch (err) {
     console.error(
       "Cleanup error:",
