@@ -15,7 +15,9 @@ async function cleanup(filePath: string) {
     const resolvedPath = path.resolve(filePath);
 
     if (!resolvedPath.startsWith(UPLOADS_DIR)) {
-      console.error("Cleanup error: Attempted to delete a file outside the uploads directory");
+      console.error(
+        "Cleanup error: Attempted to delete a file outside the uploads directory"
+      );
       return;
     }
 
